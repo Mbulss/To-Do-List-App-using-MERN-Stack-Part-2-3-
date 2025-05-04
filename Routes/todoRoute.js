@@ -5,6 +5,10 @@ import {
   getAllTodos,
   updateTodo,
 } from "../controllers/todolist.js";
+import {
+  validateTodoInput,
+  validateTodoId
+} from "../middleware/todoMiddleware.js";
 
 const router = express.Router();
 
@@ -70,7 +74,11 @@ router.get("/get_all", getAllTodos);
  *       '500':
  *         description: Internal server error
  */
-router.post("/add_todo", createTodo);
+router.post(
+  "/add_todo",
+  validateTodoInput,
+  createTodo
+);
 
 /**
  * @openapi
@@ -115,7 +123,12 @@ router.post("/add_todo", createTodo);
  *       '500':
  *         description: Internal server error
  */
-router.patch("/update_todo/:id", updateTodo);
+router.patch(
+  "/update_todo/:id",
+  validateTodoId,
+  validateTodoInput,
+  updateTodo
+);
 
 /**
  * @openapi
@@ -141,6 +154,10 @@ router.patch("/update_todo/:id", updateTodo);
  *       '500':
  *         description: Internal server error
  */
-router.delete("/delete_todo/:id", deleteTodo);
+router.delete(
+  "/delete_todo/:id",
+  validateTodoId,
+  deleteTodo
+);
 
 export default router;
